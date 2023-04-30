@@ -1,0 +1,10 @@
+
+@font-face{
+    font-family: "ccxkt";
+    src: url("./Gska00h.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+.ccxkt{
+    font-family: "ccxkt" !important;
+}
