@@ -38,6 +38,8 @@
           :collapse="isCollapse"
           :collapse-transition="false"
           router
+          @select="handleSelect"
+          :default-active="activeIndex"
         >
           <el-submenu index="1">
             <template slot="title">
@@ -61,7 +63,11 @@
             <i class="el-icon-goods"></i>
             <span slot="title">商品管理</span>
           </el-menu-item>
-          <el-menu-item index="4" route="chart">
+          <el-menu-item index="4" route="chain">
+            <i class="el-icon-share"></i>
+            <span slot="title">区块链溯源</span>
+          </el-menu-item>
+          <el-menu-item index="5" route="chart">
             <i class="el-icon-pie-chart"></i>
             <span slot="title">碳足迹分析</span>
           </el-menu-item>
@@ -111,8 +117,11 @@ export default {
       isCollapse: false,
       userInfoVisible: false,
       changeVisible: false,
+
       timer: null, //实时时间
       dateDay: null,
+      activeIndex: "/user",
+
       dateYear: null,
       changeForm: {
         oldPassword: "123456",
@@ -131,6 +140,14 @@ export default {
         ],
       },
     };
+  },
+
+  watch: {
+    activeIndex(newValue) {
+      	// this.activeIndex = this.$route.path;
+
+      // 如果使用 v-for 循环 可以取消上面注释
+    },
   },
   methods: {
     logout() {
@@ -169,11 +186,15 @@ export default {
     changeDialogClosed() {
       this.$refs.changeFormRef.resetFields();
     },
-    goHome(){
+    goHome() {
       this.$router.push("home");
-    }
+    },
+    handleSelect(keyPath) {
+      sessionStorage.setItem("keyPath", keyPath);
+    },
   },
   mounted() {
+    this.activeIndex = sessionStorage.getItem("keyPath") || "1";
     this.timer = setInterval(() => {
       const date = this.$dayjs(new Date());
       this.dateDay = date.format("HH:mm:ss");
@@ -191,23 +212,22 @@ export default {
 </script>
 
 <style scoped>
-.ccxkt{
+.ccxkt {
   font-size: 25px;
 }
-.avater_container{
+.avater_container {
   margin-right: 20px;
 }
 #header_logo {
   width: auto;
   margin-left: 20px;
   cursor: pointer;
-
 }
 #header_logo img {
   object-fit: contain;
   width: 80px;
 }
-.time_container{
+.time_container {
   margin-right: 20px;
   font-size: 18px;
 }

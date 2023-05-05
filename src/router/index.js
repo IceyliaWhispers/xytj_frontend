@@ -6,6 +6,7 @@ import Admin from "../components/admin/Admin"
 import User from "../components/user/User"
 import Categories from "../components/categories/Categories"
 import Order from "@/components/order/Order.vue"
+import Chain from "@/components/chain/Chain.vue"
 import ChartPage from "@/views/ChartPage"
 Vue.use(VueRouter);
 
@@ -38,6 +39,10 @@ const routes = [
       {
         path: "/order",
         component: Order,
+      },
+      {
+        path: "/chain",
+        component: Chain,
       },
       {
         path: "/chart",

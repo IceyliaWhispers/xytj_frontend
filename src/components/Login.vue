@@ -48,15 +48,15 @@
         </el-form-item>
         <!--按钮区-->
         <el-form-item class="btns">
-          <button id="login" @click="login">登录</button>
-          <button id="reset" @click="resetLoginForm">重置</button>
+          <button id="login" @click.prevent="login">登录</button>
+          <button id="reset"  @click.prevent="resetLoginForm">重置</button>
         </el-form-item>
       </el-form>
     </div>
   </div>
 </template>
 <script>
-import { login as login_api } from "@/api";
+import { getChinaMap, login as login_api } from "@/api";
 export default {
   data() {
     return {

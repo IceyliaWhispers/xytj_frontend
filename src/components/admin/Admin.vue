@@ -28,7 +28,13 @@
           >
         </el-col>
       </el-row>
-      <el-table :data="list" stripe border>
+      <el-table
+        :data="list"
+        stripe
+        border
+        :header-cell-style="{ textAlign: 'center' }"
+        :cell-style="{ 'text-align': 'center' }"
+      >
         <el-table-column type="index"> </el-table-column>
 
         <el-table-column prop="name" label="真实姓名" width="200">
@@ -323,6 +329,7 @@ export default {
       const res = await updateAdmin2(this.userForm);
       if (res.code === 0) return this.$message.error("服务器错误，修改失败");
       this.$message.success("修改成功");
+      this.getList();
     },
     deleteUser() {
       this.$message.info("暂时没搞");

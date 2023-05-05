@@ -1,5 +1,5 @@
 import Vue from "vue";
-import {Divider, Popover, Steps, Step, Upload, Tabs,TabPane, Drawer, Radio, Option, Select, Tree, Tag, MessageBox, Dialog, Button, Form, FormItem, Input, Message, Container, Header, Aside, Main, Menu, Submenu, MenuItem, Breadcrumb, BreadcrumbItem, Card, Row, Col, Table, TableColumn, Switch, Tooltip, Pagination} from "element-ui";
+import {Timeline,TimelineItem, Empty, Divider, Popover, Steps, Step, Upload, Tabs,TabPane, Drawer, Radio, Option, Select, Tree, Tag, MessageBox, Dialog, Button, Form, FormItem, Input, Message, Container, Header, Aside, Main, Menu, Submenu, MenuItem, Breadcrumb, BreadcrumbItem, Card, Row, Col, Table, TableColumn, Switch, Tooltip, Pagination} from "element-ui";
 
 Vue.use(Button);
 Vue.use(Form);
@@ -36,9 +36,9 @@ Vue.use(Step);
 Vue.use(Steps);
 Vue.use(Popover);
 Vue.use(Divider);
-
-
-
+Vue.use(Empty);
+Vue.use(Timeline);
+Vue.use(TimelineItem);
 
 
 

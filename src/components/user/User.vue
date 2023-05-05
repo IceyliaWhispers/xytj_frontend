@@ -23,19 +23,31 @@
           </el-input>
         </el-col>
       </el-row>
-      <el-table :data="list" stripe border>
+      <el-table
+        :data="list"
+        stripe
+        border
+        :header-cell-style="{ textAlign: 'center' }"
+        :cell-style="{ 'text-align': 'center' }"
+      >
         <el-table-column type="index"> </el-table-column>
 
-        <el-table-column prop="name" label="真实姓名" width="200">
+        <!-- <el-table-column prop="name" label="真实姓名" width="200">
+        </el-table-column> -->
+        <el-table-column prop="nickName" label="账户昵称" width="200">
         </el-table-column>
-        <el-table-column prop="username" label="账户" width="200">
+        <el-table-column prop="phone" width="200" label="手机号">
         </el-table-column>
-        <el-table-column prop="phone" label="手机号"> </el-table-column>
-        <el-table-column label="性别">
+        <el-table-column label="性别" width="150">
           <template slot-scope="scope">
             {{ scope.row.sex === "1" ? "男" : "女" }}
           </template>
         </el-table-column>
+        <el-table-column prop="createTime" label="创建时间"></el-table-column>
+        <el-table-column
+          prop="updateTime"
+          label="最近更新时间"
+        ></el-table-column>
         <el-table-column label="状态">
           <template slot-scope="scope">
             <el-switch
@@ -47,8 +59,8 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" @click="editInfo(scope.row)"
-              >编辑</el-button
+            <el-button type="primary" size="mini" @click="resetToZero(scope.row)"
+              >积分清零</el-button
             >
             <el-button type="primary" size="mini" @click="deleteUser"
               >删除</el-button
@@ -70,7 +82,7 @@
     </el-card>
     <!-- 编辑对话框 -->
 
-    <el-dialog
+    <!-- <el-dialog
       title="修改信息"
       :visible.sync="editDialogVisible"
       width="50%"
@@ -99,11 +111,11 @@
         <el-button @click="editDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="updateEdit">确 定</el-button>
       </span>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 <script>
-import { getUserList, updataUser } from "@/api";
+import { getUserList, updataUser,toZero } from "@/api";
 export default {
   data() {
     // 手机验证规则
@@ -217,8 +229,10 @@ export default {
     // 提交修改
     async updateEditForm() {
       const res = await updataUser(this.userForm);
-      if (res.code === 0) return this.$message.error("服务器错误，修改失败");
+      console.log(res);
+      // if (res.code === 0) return this.$message.error("服务器错误，修改失败");
       this.$message.success("修改成功");
+      this.getList();
     },
     deleteUser() {
       this.$message.info("暂时没搞");
@@ -233,6 +247,26 @@ export default {
       this.queryInfo.page = newPage;
       this.getList();
     },
+    // 积分清零
+    async resetToZero(user){
+      this.$confirm('此操作将清空用户积分, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        }).then(async () => {
+          const res = await toZero(user.id);
+          this.$message({
+            type: 'success',
+            message: '积分清零成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消操作'
+          });
+        });
+    }
   },
   created() {
     this.getList();

@@ -27,7 +27,13 @@
           >
         </el-col>
       </el-row>
-      <el-table :data="list" stripe border>
+      <el-table
+        :data="list"
+        stripe
+        border
+        :header-cell-style="{ textAlign: 'center' }"
+        :cell-style="{ 'text-align': 'center' }"
+      >
         <el-table-column type="index"> </el-table-column>
 
         <el-table-column prop="name" label="名称"> </el-table-column>
@@ -149,6 +155,36 @@
         </div>
       </el-card>
     </el-drawer>
+    <el-dialog
+      title="修改信息"
+      :visible.sync="editDialogVisible"
+      width="50%"
+      @close="editFormClosed"
+    >
+      <el-form
+        label-position="left"
+        :model="editForm"
+        ref="editFormRef"
+        label-width="100px"
+      >
+        <el-form-item label="商品名" prop="name">
+          <el-input v-model="editForm.name"></el-input>
+        </el-form-item>
+        <el-form-item label="碳积分" prop="carbonIntegral">
+          <el-input v-model="editForm.carbonIntegral"></el-input>
+        </el-form-item>
+        <el-form-item label="价格" prop="price">
+          <el-input v-model="editForm.price"></el-input>
+        </el-form-item>
+        <el-form-item label="商品描述" prop="description">
+          <el-input type="textarea" v-model="editForm.description"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="editDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="updateEdit">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -171,7 +207,14 @@ export default {
         pageSize: 5,
       },
       total: 0,
-
+      editForm: {
+        id: "",
+        carbonIntegral: 0,
+        description: "",
+        image: "",
+        name: "",
+        price: 0,
+      },
       // 更改商品的信息
       cateInfo: {
         carbonIntegral: "",
@@ -191,6 +234,7 @@ export default {
       },
       list: [],
       addDialogVisible: false,
+      editDialogVisible: false,
       activeIndex: "0",
       addFormRules: {
         name: [{ required: true, message: "请填写商品名称", trigger: "blur" }],
@@ -225,7 +269,15 @@ export default {
       this.getCateForm(user);
       this.updateCateForm(user);
     },
-    editInfo(user) {},
+    editInfo(user) {
+      this.editForm.id = user.id;
+      this.editForm.name = user.name;
+      this.editForm.price = user.price;
+      this.editForm.image = user.image;
+      this.editForm.description = user.description;
+      this.editForm.carbonIntegral = user.carbonIntegral;
+      this.editDialogVisible = true;
+    },
     getCateForm(user) {
       const { carbonIntegral, description, image, name, price, id } = user;
       this.cateInfo = { carbonIntegral, description, image, name, price, id };
@@ -282,10 +334,30 @@ export default {
       this.queryInfo.pageSize = newPageSize;
       this.getList();
     },
+    // 提交修改
+    async updateEditForm() {
+      const res = await updateCommodity(this.editForm);
+      console.log(res);
+      if (res.code === 0) return this.$message.error("修改失败");
+      this.$message.success("修改成功");
+      this.getList();
+    },
     //   第几页变化了
     handleCurrentChange(newPage) {
       this.queryInfo.page = newPage;
       this.getList();
+    },
+    // 编辑关闭
+    editFormClosed() {
+      this.$refs.editFormRef.resetFields();
+    },
+    // 点击确认
+    updateEdit() {
+      this.$refs.editFormRef.validate((valid) => {
+        if (!valid) return;
+        this.updateEditForm();
+        this.editDialogVisible = false;
+      });
     },
   },
   created() {

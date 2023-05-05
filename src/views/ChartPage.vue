@@ -33,7 +33,7 @@
           <div id="totalnum-container">
             <div>
               <span id="time">{{ total }}</span>
-              <span id="perCarbon">已减少碳排放量</span>
+              <span id="perCarbon">已减少碳排放量(g)</span>
             </div>
             <div>
               <span id="perCarbonCoin">{{ perCarbonCoin }}</span>
@@ -128,10 +128,10 @@ export default {
       return this.numFormat(this.totalNum.total, 0);
     },
     perCarbonCoin() {
-      return this.totalNum.perCarbonCoin;
+      return this.totalNum.perCarbonCoin.toFixed(2);
     },
     generate() {
-      return this.numFormat(this.totalNum.generate, 0);
+      return this.totalNum.generate.toFixed(2);
     },
   },
   methods: {

@@ -1,16 +1,10 @@
 import axios from 'axios'; // 引入axios
 import Vue from "vue"
 Vue.prototype.$http = axios;
-let localPath = "";
 // 改变路径
-if (process.env.NODE_ENV == 'production'){
-    axios.defaults.baseURL = "http://localhost:8080" ;
-    localPath = "http://localhost:8080/backend"
-}
-else{
-    axios.defaults.baseURL = "/api"
-    localPath = "http://localhost:8081"
-}
+const baseUrl = "http://124.223.48.82:8080";
+const localPath = ""
+// const baseUrl = "http://127.0.0.1:4523/m1/2382127-0-default"
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.put['Content-Type'] = 'application/json';
 axios.defaults.timeout = 10000;
@@ -27,7 +21,7 @@ axios.interceptors.request.use(config => {
  */
 export function get(url, params){    
     return new Promise((resolve, reject) =>{        
-        axios.get(url, {            
+        axios.get(baseUrl + url, {            
             params: params        
         }).then(res => {
             resolve(res.data);
@@ -43,7 +37,7 @@ export function get(url, params){
  */
 export function post(url, params) {
     return new Promise((resolve, reject) => {
-         axios.post(url, params)
+         axios.post(baseUrl + url, params)
         .then(res => {
             resolve(res.data);
         })
@@ -59,7 +53,7 @@ export function post(url, params) {
  */
 export function put(url, params) {
     return new Promise((resolve, reject) => {
-         axios.put(url, params)
+         axios.put(baseUrl + url, params)
         .then(res => {
             resolve(res.data);
         })

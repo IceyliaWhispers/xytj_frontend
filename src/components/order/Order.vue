@@ -23,7 +23,13 @@
           </el-input>
         </el-col>
       </el-row>
-      <el-table :data="list" stripe border>
+      <el-table
+        :data="list"
+        stripe
+        border
+        :header-cell-style="{ textAlign: 'center' }"
+        :cell-style="{ 'text-align': 'center' }"
+      >
         <el-table-column type="index"> </el-table-column>
 
         <el-table-column
