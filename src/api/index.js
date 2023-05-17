@@ -43,7 +43,7 @@ export const updataUser = p => {
 };
 
 // 积分重置为零
-export const toZero = id => put("/fabric/toZero", {id});
+export const toZero = id => put(`/fabric/toZero?id=${id}`, null);
 
 
 /* 通用类 */
