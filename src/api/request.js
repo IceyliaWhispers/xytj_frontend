@@ -2,9 +2,8 @@ import axios from 'axios'; // 引入axios
 import Vue from "vue"
 Vue.prototype.$http = axios;
 // 改变路径
-const baseUrl = "http://124.223.48.82:8080";
+const baseUrl = "https://www.swpuxytj.com:8089";
 const localPath = ""
-// const baseUrl = "http://127.0.0.1:4523/m1/2382127-0-default"
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.put['Content-Type'] = 'application/json';
 axios.defaults.timeout = 10000;
